@@ -30,4 +30,4 @@ app.get("/", async (req, res) => {
     res.redirect(urlList[countOld.count%3])
 });
 
-app.listen(3001);
+app.listen(process.env.PORT || 8080);
