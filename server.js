@@ -4,7 +4,7 @@ const requireDir = require('require-dir')
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/mult-redirect-url',
+mongoose.connect('mongodb+srv://admin:copa2020@cluster-1.i6ej5.gcp.mongodb.net/mult-redirect-url?retryWrites=true&w=majority',
     { 
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -23,7 +23,6 @@ app.get("/", async (req, res) => {
     await Counter.findByIdAndUpdate(countOld.id, {count: countOld.count+1});
 
     const urlList = [
-        "https://www.google.com.br/",
         "https://api.whatsapp.com/send?phone=5534996699548",
         "https://api.whatsapp.com/send?phone=5534991352812"
     ]
