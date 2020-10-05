@@ -23,8 +23,10 @@ app.get("/", async (req, res) => {
     await Counter.findByIdAndUpdate(countOld.id, {count: countOld.count+1});
 
     const urlList = [
-        "https://api.whatsapp.com/send?phone=5534996699548",
-        "https://api.whatsapp.com/send?phone=5534991352812"
+        "https://api.whatsapp.com/send?phone=5517991866774",
+        "https://api.whatsapp.com/send?phone=5517992176410",
+        "https://api.whatsapp.com/send?phone=5517988109899",
+        "https://api.whatsapp.com/send?phone=5517991165619"
     ]
 
     res.redirect(urlList[countOld.count%3])
