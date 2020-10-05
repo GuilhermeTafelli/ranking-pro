@@ -29,7 +29,7 @@ app.get("/", async (req, res) => {
         "https://api.whatsapp.com/send?phone=5517991165619"
     ]
 
-    res.redirect(urlList[countOld.count%3])
+    res.redirect(urlList[countOld.count%4])
 });
 
 app.listen(process.env.PORT || 8080);
