@@ -16,7 +16,6 @@ requireDir("./src/models");
 const Counter = mongoose.model('Counter')
 
 app.get("/", async (req, res) => {
-    
 
     const countOld = await Counter.findOne();
 
@@ -30,6 +29,22 @@ app.get("/", async (req, res) => {
     ]
 
     res.redirect(urlList[countOld.count%4])
+});
+
+
+app.get("/atomic-brand", async (req, res) => {
+
+    const countOld = await Counter.findOne();
+
+    await Counter.findByIdAndUpdate(countOld.id, {count: countOld.count+1});
+
+    const urlList = [
+        "https://api.whatsapp.com/send?phone=5547999515142",
+        "https://api.whatsapp.com/send?phone=5541999494223",
+        "https://api.whatsapp.com/send?phone=5547918926789"
+    ]
+
+    res.redirect(urlList[countOld.count%3])
 });
 
 app.listen(process.env.PORT || 8080);
