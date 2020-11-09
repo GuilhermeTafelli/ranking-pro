@@ -71,7 +71,7 @@ class ResetPasswordService{
                 user.passwordResetExpiresIn = null
             
                 await user.save()
-            }
+            } 
     
             return
         }
