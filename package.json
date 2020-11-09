@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "preprod":"yarn sequelize db:migrate",
+    "prod": "node server.js",
     "pretest": "NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test jest",
     "postest": "NODE_ENV=test sequelize db:migrate:undo:all",
