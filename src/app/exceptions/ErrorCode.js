@@ -38,7 +38,19 @@ const ErrorCode = {
     FAILED_RESET_PASSWORD: {
         code: "FAILED_RESET_PASSWORD",
         message: "Failed to reset password."
-    }
+    },
+    UPDATE_USER_FAILED:{
+        code: "UPDATE_USER_FAILED",
+        message: "Failed to update user infos."
+    },
+    SOCIAL_MEDIA_ALREDY_EXISTS: {
+        code: "SOCIAL_MEDIA_ALREDY_EXISTS",
+        message: "Social media already exists."
+    },    
+    CREATE_SOCIAL_MEDIA_FAILED: {
+        code: "CREATE_SOCIAL_MEDIA_FAILED",
+        message: "Error on create new social media."
+    },
 }
 
 module.exports = ErrorCode

@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const Exception = require('../exceptions/Exception')
 const ErrorCode = require('../exceptions/ErrorCode')
-
+const mapResponse = require('./mappers/UserServiceMapper')
 class SessionService{
 
     async auth(auth){
@@ -23,7 +23,7 @@ class SessionService{
     
             console.log(user.id)
             return {
-                user,
+                user: mapResponse(user),
                 token: user.generateToken()
             };
     

@@ -1,16 +1,33 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { DATE, INTEGER } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+      },
       name: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.VIRTUAL,
       passwordHash: DataTypes.STRING,
       passwordResetExpiresIn: DataTypes.DATE,
-      passwordResetToken: DataTypes.STRING
+      passwordResetToken: DataTypes.STRING,
+      profilePhotoLink: DataTypes.STRING,
+      address: DataTypes.STRING,
+      addressNumber: DataTypes.STRING,
+      addressComplement: DataTypes.STRING,
+      city: DataTypes.STRING,
+      state: DataTypes.STRING,
+      country: DataTypes.STRING,
+      postalCode: DataTypes.STRING,
+      phone: DataTypes.STRING,
+      whatsApp: DataTypes.STRING,
+      sex: DataTypes.INTEGER,
     },
     {
       hooks: {
