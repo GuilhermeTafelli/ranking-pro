@@ -51,6 +51,10 @@ const ErrorCode = {
         code: "CREATE_SOCIAL_MEDIA_FAILED",
         message: "Error on create new social media."
     },
+    GET_SOCIAL_MEDIA_BY_ID_FAILED: {
+        code: "GET_SOCIAL_MEDIA_BY_ID_FAILED",
+        message: "Error on get social media by id."
+    },
 }
 
 module.exports = ErrorCode
