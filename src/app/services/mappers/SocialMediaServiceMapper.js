@@ -39,6 +39,7 @@ module.exports = {
             monthlyInvoicing: socialMedia.monthlyInvoicing,
             skills: socialMedia.skills,
             niches: socialMedia.niches,
+            medals: socialMedia.medals,
             currentContracts: socialMedia.currentContracts
         }
     },
@@ -56,6 +57,7 @@ module.exports = {
                 profilePhotoLink: socialMedia.User.profilePhotoLink,
                 city: socialMedia.User.city,
                 state: socialMedia.User.state,  
+                medals: socialMedia.medals ? socialMedia.medals.length : 0,
                 monthlyInvoicing: socialMedia.monthlyInvoicing,
                 currentContracts: socialMedia.currentContracts
             }

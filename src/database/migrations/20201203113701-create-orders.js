@@ -48,6 +48,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
+      customFields: {
+        type: Sequelize.JSON,
+        allowNull: true
+      },
     },
   )},
 

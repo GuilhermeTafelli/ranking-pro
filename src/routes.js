@@ -6,8 +6,10 @@ const ResetPasswordController = require('./app/controllers/ResetPasswordControll
 const SocialMediaController = require('./app/controllers/SocialMediaController')
 const OrderController = require('./app/controllers/OrderController')
 
-routes.post('/auth', SessionController.auth);
-routes.post('/users', UserController.create);
+routes.post('/auth', SessionController.auth)
+routes.post('/users', UserController.create)
+routes.post('/users/admin', UserController.createAdmin)
+
 routes.post('/reset-password', ResetPasswordController.resetPassword)
 routes.post('/reset-password/token', ResetPasswordController.sendResetPasswordToken)
 routes.post('/users/socials-media', SocialMediaController.create)
@@ -18,7 +20,11 @@ routes.use(authMiddleware)
 
 routes.get('/users/social-media', SocialMediaController.getByUserId)
 routes.put('/users', UserController.update)
-routes.post('/orders', OrderController.create)
-routes.get('/orders', OrderController.listOrderByUserId)
+routes.post('/users/orders', OrderController.create)
+routes.get('/users/orders', OrderController.listOrderByUserId)
 
-module.exports = routes;
+routes.get('/orders', OrderController.listAll)
+routes.post('/orders/:orderId/answer', OrderController.answerOrder)
+routes.get('/orders/:orderId', OrderController.getDetailOrderById)
+
+module.exports = routes
