@@ -7,7 +7,7 @@ class UserController{
 
     async userExistsByEmaileate(req, res){
         try {
-            const response = await UserService.userExistsByEmail(req.body.email)
+            const response = await UserService.userExistsByEmail(req.params.email)
 
             res.status(200)
             return res.json(response)        
