@@ -4,6 +4,19 @@ const ExceptionHandler = require("../exceptions/ExceptionHandler")
 
 class UserController{
 
+
+    async userExistsByEmaileate(req, res){
+        try {
+            const response = await UserService.userExistsByEmail(req.body.email)
+
+            res.status(200)
+            return res.json(response)        
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
+
     async create(req, res){
         try {
             const response = await UserService.create(req.body)

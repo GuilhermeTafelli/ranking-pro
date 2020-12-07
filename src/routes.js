@@ -8,6 +8,8 @@ const OrderController = require('./app/controllers/OrderController')
 
 routes.post('/auth', SessionController.auth)
 routes.post('/users', UserController.create)
+routes.get('/users/email', UserController.userExistsByEmaileate)
+
 routes.post('/users/admin', UserController.createAdmin)
 
 routes.post('/reset-password', ResetPasswordController.resetPassword)

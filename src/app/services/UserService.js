@@ -8,6 +8,15 @@ const moment = require('moment')
 
 class UserService{
 
+
+    async userExistsByEmail(email){
+        const existingUser = await User.findOne({ where: { email: email } })
+
+        return {
+            exists: Boolean(existingUser)
+        }
+    }
+
     async create(newUser){
 
         try {
