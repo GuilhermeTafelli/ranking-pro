@@ -1,63 +1,58 @@
+const { User } = require("../models");
+const UserService = require("../services/UserService")
+const ExceptionHandler = require("../exceptions/ExceptionHandler")
 
-const { GoogleSpreadsheet } = require('google-spreadsheet');
-const credenciais = require('../../../google-sheets-credentials.json');
-
-
-
-class UserController {
+class UserController{
 
 
-    async getUsersByCategory(req, res) {
-        const doc = new GoogleSpreadsheet("14BWrLDoHeOLXcBLAGe_b6v307YJ964FZ4f-ZfEy85cA");
+    async userExistsByEmaileate(req, res){
+        try {
+            const response = await UserService.userExistsByEmail(req.params.email)
 
-        await doc.useServiceAccountAuth({
-            client_email: credenciais.client_email,
-            private_key: credenciais.private_key.replace(/\\n/g, '\n')
-        })
-        await doc.loadInfo();
-
-
-        let sheet;
-        sheet = await doc.sheetsByIndex[0];
-        const rows = await sheet.getRows()
-        const response = await rows.filter((row) => row["Quais áreas você atua?"].includes(req.params.category)).map(row => ({
-            name: row["Nome Completo"],
-            city: row["Cidade"],
-            id: row["ID"]
-        }))
-        console.log(response)
-        return res.json(response)
-    }
-
-    async getUsersById(req, res) {
-        const doc = new GoogleSpreadsheet("14BWrLDoHeOLXcBLAGe_b6v307YJ964FZ4f-ZfEy85cA");
-
-        await doc.useServiceAccountAuth({
-            client_email: credenciais.client_email,
-            private_key: credenciais.private_key.replace(/\\n/g, '\n')
-        })
-        await doc.loadInfo();
-
-
-        let sheet;
-        sheet = await doc.sheetsByIndex[0];
-        const rows = await sheet.getRows()
-        const user = await rows.find((row) => row["ID"] == req.params.id)
-        const response = {
-            name: user["Nome Completo"],
-            city: user["Cidade"],
-            email: user["Email"],
-            phone: user["Telefone"],
-            whatsApp: user["WhatsApp"],
-            portfolio: user["Link do portfolio"],
-            instagram: user["Instagram"],
-            facebook: user["Facebook"],
-            atuation: user["Quais áreas você atua?"]
+            res.status(200)
+            return res.json(response)        
         }
-        console.log(response)
-        return res.json(response)
+        catch(error){
+            ExceptionHandler(res, error)
+        }
     }
 
+    async create(req, res){
+        try {
+            const response = await UserService.create(req.body)
+
+            res.status(201)
+            return res.json(response)        
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
+
+    async createAdmin(req, res){
+        try {
+            const response = await UserService.createAdmin(req.body)
+
+            res.status(201)
+            return res.json(response)        
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
+
+
+    async update(req, res){
+        try {
+            const response = await UserService.update(req.userId, req.body)
+
+            res.status(200)
+            return res.json(response)      
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
 }
 
 module.exports = new UserController()
