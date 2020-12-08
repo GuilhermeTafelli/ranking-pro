@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         linkedin: DataTypes.STRING,
         tiktok: DataTypes.STRING,
         aboutMe: DataTypes.STRING,
-        whereYouFrom: DataTypes.STRING,
+        whereYouFrom: DataTypes.ARRAY(DataTypes.STRING),
         monthlyInvoicing: DataTypes.INTEGER,
         skills: DataTypes.ARRAY(DataTypes.STRING),
         niches: DataTypes.ARRAY(DataTypes.STRING),

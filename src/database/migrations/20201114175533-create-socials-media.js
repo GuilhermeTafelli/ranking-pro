@@ -45,7 +45,7 @@ module.exports = {
         allowNull: false
       },
       whereYouFrom: {
-        type: Sequelize.STRING,
+        type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true
       },
       monthlyInvoicing: {
