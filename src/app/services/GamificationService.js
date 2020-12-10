@@ -39,7 +39,7 @@ class GamificationService {
 
         try {
 
-            const gamificationCode = await GamificationCode.findOne({ where: { code: codeVerify } });
+            const gamificationCode = await GamificationCode.findOne({ where: { code: codeVerify.toUpperCase() } });
 
             if (!gamificationCode) {
                 throw new Exception(ErrorCode.GAMIFICATION_CODE_NOT_FOUND)
@@ -48,7 +48,7 @@ class GamificationService {
             const socialMedia = await SocialMediaService.getByUserId(userId)
 
 
-            const hasCode = Boolean(socialMedia.gamificationCodes ? socialMedia.gamificationCodes.find(code => code.code == codeVerify) : false)
+            const hasCode = Boolean(socialMedia.gamificationCodes ? socialMedia.gamificationCodes.find(code => code.code == codeVerify.toUpperCase()) : false)
 
             console.log(hasCode)
             if(hasCode) throw new Exception(ErrorCode.GAMIFICATION_CODE_ALREDY_REGISTERED)
