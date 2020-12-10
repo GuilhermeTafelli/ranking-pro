@@ -2,19 +2,19 @@ const { SocialMedia } = require('../models')
 const Exception = require('../exceptions/Exception')
 const ErrorCode = require('../exceptions/ErrorCode')
 const { User } = require('../models')
-const { mapToResponse, mapToResponseRanking} = require('./mappers/SocialMediaServiceMapper');
+const { mapToResponse, mapToResponseRanking, mapToResponseRankingScore } = require('./mappers/SocialMediaServiceMapper');
 
-class SocialMediaService{
+class SocialMediaService {
 
-    async create(newSocialMedia){
+    async create(newSocialMedia) {
         try {
-            const existingSocialMedia = await SocialMedia.findOne({ where: { userId: newSocialMedia.userId } } )
-        
+            const existingSocialMedia = await SocialMedia.findOne({ where: { userId: newSocialMedia.userId } })
+
             if (existingSocialMedia) {
                 console.log("error")
                 throw new Exception(ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS)
             }
-            
+
             const socialMedia = await SocialMedia.create(
                 {
                     userId: newSocialMedia.userId,
@@ -29,56 +29,116 @@ class SocialMediaService{
                     monthlyInvoicing: newSocialMedia.monthlyInvoicing,
                     skills: newSocialMedia.skills,
                     niches: newSocialMedia.niches,
-                    currentContracts: newSocialMedia.currentContracts
+                    customers: newSocialMedia.customers,
+                    testCustomers: newSocialMedia.testCustomers
                 }
             )
-        
-            return socialMedia        
+
+            return socialMedia
         }
-        catch(error){
+        catch (error) {
             console.log(error)
-            if(error.code === ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS.code) throw error;
+            if (error.code === ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_SOCIAL_MEDIA_FAILED)
         }
     }
 
-    async getRanking(userId){
-        try{
-            const socialsMedia = await SocialMedia.findAll({include: {model:User}})  
+
+    async updateGamificationCodeAndScore(gamificationCodes, newScore, socialMediaId) {
+        try {
+            await SocialMedia.update(
+                {
+                    gamificationCodes: gamificationCodes,
+                    score: newScore
+                },
+                {
+                    where: {
+                        id: socialMediaId
+                    }
+                }
+
+            )
+
+            return
+        }
+        catch (error) {
+            console.log(error)
+            throw new Exception(ErrorCode.UPDATE_SOCIAL_MEDIA_GAMIFICATION_CODES_FAILED)
+        }
+    }
+
+    async getRanking(userId) {
+        try {
+            const socialsMedia = await SocialMedia.findAll({ include: { model: User } })
             return mapToResponseRanking(socialsMedia, userId)
         }
-        catch(error){
+        catch (error) {
             console.log(error)
             throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
         }
 
     }
 
+    async getRankingScore(userId) {
+        try {
+            const socialsMedia = await SocialMedia.findAll({ include: { model: User } })
+            console.log("teste")
+            return mapToResponseRankingScore(socialsMedia, userId)
+        }
+        catch (error) {
+            console.log(error)
+            throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
+        }
 
-    async getById(socialMediaId){
-        try{
-            const socialMedia = await SocialMedia.findOne({ where: {id: socialMediaId}, include: {model:User}})
+    }
+    
+    async getById(socialMediaId) {
+        try {
+            const socialMedia = await SocialMedia.findOne({ where: { id: socialMediaId }, include: { model: User } })
             console.log("enter")
             return mapToResponse(socialMedia, socialMedia.User)
         }
-        catch(error){
+        catch (error) {
             console.log(error)
             throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
         }
 
     }
 
-    async getByUserId(userId){
-        try{
-            const socialMedia = await SocialMedia.findOne({ where: {userId: userId}, include: {model:User}})
-            console.log("entrei", socialMedia.medals)
+    async getByUserId(userId) {
+        try {
+
+            const socialMedia = await SocialMedia.findOne({ where: { userId: userId }, include: { model: User } })
+
+
+            if (!socialMedia) {
+                throw new Exception(ErrorCode.SOCIAL_MEDIA_NOT_FOUND)
+            }
+
             return mapToResponse(socialMedia, socialMedia.User)
         }
-        catch(error){
-            console.log(error)
+        catch (error) {
+            if (error instanceof Exception) throw error;
             throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
         }
+    }
 
+    async getGamificationCodesByUserId(userId) {
+        try {
+
+            const socialMedia = await SocialMedia.findOne({ where: { userId: userId }})
+
+
+            if (!socialMedia) {
+                throw new Exception(ErrorCode.SOCIAL_MEDIA_NOT_FOUND)
+            }
+
+            return socialMedia.gamificationCodes
+        }
+        catch (error) {
+            if (error instanceof Exception) throw error;
+            throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
+        }
     }
 }
 

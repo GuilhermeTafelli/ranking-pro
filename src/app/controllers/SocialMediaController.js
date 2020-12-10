@@ -36,10 +36,33 @@ class SocialMediaController{
             ExceptionHandler(res, error)
         }
     }
+
+    async getGamificationCodesByUserId(req, res){
+        try {
+            const response = await SocialMediaService.getGamificationCodesByUserId(req.userId)
+
+            return res.json(response)        
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
     async getRanking(req, res){
         try {
             console.log(req.userId)
             const response = await SocialMediaService.getRanking(req.userId)
+
+            return res.json(response)        
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
+
+    async getRankingScore(req, res){
+        try {
+            console.log(req.userId)
+            const response = await SocialMediaService.getRankingScore(req.userId)
 
             return res.json(response)        
         }

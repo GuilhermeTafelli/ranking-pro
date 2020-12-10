@@ -7,9 +7,21 @@ const ErrorCode = {
         code: "CREATE_USER_FAILED",
         message: "Error on create new user."
     },
+        CREATE_USER_FAILED: {
+        code: "CREATE_USER_FAILED",
+        message: "Error on create new user."
+    },
     USER_NOT_FOUND: {
         code: "USER_NOT_FOUND",
         message: "User not found."
+    },
+    SOCIAL_MEDIA_NOT_FOUND: {
+        code: "SOCIAL_MEDIA_NOT_FOUND",
+        message: "Social Media not found."
+    },
+    GAMIFICATION_CODE_NOT_FOUND: {
+        code: "GAMIFICATION_CODE_NOT_FOUND",
+        message: "Gamification code not found."
     },
     INVALID_AUTHENTICATION: {
         code: "INVALID_AUTHENTICATION",
@@ -47,9 +59,21 @@ const ErrorCode = {
         code: "SOCIAL_MEDIA_ALREDY_EXISTS",
         message: "Social media already exists."
     },    
-    CREATE_SOCIAL_MEDIA_FAILED: {
-        code: "CREATE_SOCIAL_MEDIA_FAILED",
-        message: "Error on create new social media."
+    GAMIFICATION_CODE_ALREDY_EXISTS: {
+        code: "GAMIFICATION_CODE_ALREDY_EXISTS",
+        message: "Gamification Code already exists."
+    }, 
+    GAMIFICATION_CODE_ALREDY_REGISTERED: {
+        code: "GAMIFICATION_CODE_ALREDY_REGISTERED",
+        message: "Gamification Code already registered."
+    }, 
+    UPDATE_SOCIAL_MEDIA_GAMIFICATION_CODES_FAILED: {
+        code: "UPDATE_SOCIAL_MEDIA_GAMIFICATION_CODES_FAILED",
+        message: "Error on update social media's gamification codes."
+    },
+    CREATE_GAMIFICATION_CODES_FAILED: {
+        code: "CREATE_GAMIFICATION_CODES_FAILED",
+        message: "Error on create new gamification code."
     },
     GET_SOCIAL_MEDIA_BY_ID_FAILED: {
         code: "GET_SOCIAL_MEDIA_BY_ID_FAILED",

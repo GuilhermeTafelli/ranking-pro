@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
         statusMessage: DataTypes.STRING,
         filesLink: DataTypes.ARRAY(DataTypes.STRING),
         customFields: DataTypes.JSON,
-
     }
   );
   

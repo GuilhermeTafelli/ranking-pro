@@ -11,6 +11,11 @@ module.exports = function ExceptionHandler(res, error){
         return res.status(404).send(error)
     }
 
+
+    if(error.code === ErrorCode.GAMIFICATION_CODE_NOT_FOUND.code){
+        return res.status(404).send(error)
+    }
+
     if(error.code === ErrorCode.INVALID_AUTHENTICATION.code){
         return res.status(401).send(error)
     }

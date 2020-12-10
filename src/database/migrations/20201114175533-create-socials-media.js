@@ -64,11 +64,24 @@ module.exports = {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true,
       },
-      currentContracts: {
+      gamificationCodes: {
+        type: Sequelize.ARRAY(Sequelize.JSON),
+        allowNull: true,
+        defaultValue: []
+      },
+      score: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      customers: {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
-      createdAt: {
+      testCustomers: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },      createdAt: {
         type: Sequelize.DATE,
         allowNull: false
       },
@@ -76,7 +89,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
-
     }
   )},
 

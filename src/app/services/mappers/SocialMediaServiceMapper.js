@@ -12,6 +12,20 @@ function sortRanking(a, b){
     else return a.monthlyInvoicing - b.monthlyInvoicing
 }
 
+function sortRankingScore(a, b){
+    if(a.score === null && b.score === null){
+        return a.User.fullName - b.User.fullName
+    }
+    if(a.score === null) return -1
+    if(b.score === null) return 1
+    if(b.score === a.score){
+        if(a.User.fullName > b.User.fullName) return 1
+        else return -1
+    }
+    else return a.score - b.score
+}
+
+
 module.exports = {
     mapToResponse: function (socialMedia, user){
 
@@ -40,7 +54,10 @@ module.exports = {
             skills: socialMedia.skills,
             niches: socialMedia.niches,
             medals: socialMedia.medals,
-            currentContracts: socialMedia.currentContracts
+            customers: socialMedia.customers,
+            testCustomers: socialMedia.testCustomers,
+            gamificationCodes: socialMedia.gamificationCodes,
+            score: socialMedia.score
         }
     },
     mapToResponseRanking: function (socialsMedia, userId){
@@ -59,7 +76,41 @@ module.exports = {
                 state: socialMedia.User.state,  
                 medals: socialMedia.medals ? socialMedia.medals.length : 0,
                 monthlyInvoicing: socialMedia.monthlyInvoicing,
-                currentContracts: socialMedia.currentContracts
+                customers: socialMedia.customers,
+                testCustomers: socialMedia.testCustomers
+
+            }
+
+            if(socialMedia.User.id === userId) mySocialMedia = socialMediaResponse 
+
+            return socialMediaResponse
+        })
+
+        console.log(response)
+        
+        return {
+            socialsMedia: response,
+            mySocialMedia: mySocialMedia
+
+        }
+    },
+    mapToResponseRankingScore: function (socialsMedia, userId){
+
+        console.log(userId)
+
+        var mySocialMedia
+        const response = socialsMedia.sort(sortRankingScore).reverse().map((socialMedia, index) => {
+         
+            console.log(socialMedia)
+            const socialMediaResponse = {
+                id: socialMedia.id,
+                position: index+1,
+                fullName: socialMedia.User.fullName,
+                profilePhotoLink: socialMedia.User.profilePhotoLink,
+                city: socialMedia.User.city,
+                state: socialMedia.User.state,  
+                score: socialMedia.score
+
             }
 
             if(socialMedia.User.id === userId) mySocialMedia = socialMediaResponse 

@@ -31,7 +31,7 @@ class UserService{
 
             if(newUser.profilePhoto){
                 const randomBytes  = crypto.randomBytes(8).toString('hex')
-                profilePhotoLink = await S3Service.uploadFilePublicRead(newUser.profilePhoto.base64, "profile-photo-"+newUser.name+"-"+randomBytes)
+                profilePhotoLink = await S3Service.uploadFilePublicRead(newUser.profilePhoto.base64, "profile-photo-"+newUser.fullName+"-"+randomBytes)
             }
 
             console.log(newUser.password)
