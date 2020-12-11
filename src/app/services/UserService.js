@@ -5,6 +5,7 @@ const S3Service = require('../integrations/S3Service')
 const crypto = require('crypto')
 const mapToResponse = require('./mappers/UserServiceMapper');
 const moment = require('moment')
+const db = require('../models/index');
 
 class UserService{
 
@@ -17,7 +18,70 @@ class UserService{
         }
     }
 
+    async userExistsByCpf(cpf){
+        const existingUser = await User.findOne({ where: { cpf: cpf } })
+
+        return {
+            exists: Boolean(existingUser)
+        }
+    }
+
     async create(newUser){
+        const transaction = await db.sequelize.transaction();
+        try {
+            const existingUser = await User.findOne({ where: { email: newUser.email }})
+        
+            if (existingUser) {
+                throw new Exception(ErrorCode.USER_ALREDY_EXISTS)
+            }
+
+            var profilePhotoLink
+
+            if(newUser.profilePhoto){
+                const randomBytes  = crypto.randomBytes(8).toString('hex')
+                profilePhotoLink = await S3Service.uploadFilePublicRead(newUser.profilePhoto.base64, "profile-photo-"+newUser.fullName+"-"+randomBytes)
+            }
+
+            const birthDate =  moment(newUser.birthDate, "DD/MM/YYYY").toDate()
+
+            const user = await User.create(
+                {
+                    fullName: newUser.fullName,
+                    birthDate: birthDate,
+                    sex: newUser.sex,
+                    cpf: newUser.cpf,
+                    email: newUser.email,
+                    address: newUser.address,
+                    addressNumber: newUser.addressNumber,
+                    addressComplement: newUser.addressComplement,
+                    city: newUser.city,
+                    state: newUser.state,
+                    country: newUser.country,
+                    postalCode: newUser.postalCode,
+                    whatsApp: newUser.whatsApp,
+                    profilePhotoLink: profilePhotoLink,
+                    password: newUser.password,
+                    roles: ["USER"]
+                },
+                { transaction: transaction }
+            )
+                
+            transaction.commit()
+
+            let token = await user.generateToken()
+            
+            return { user: mapToResponse(user), token: token }        
+        }
+        catch(error){
+            console.log(error)
+
+            await transaction.rollback();
+            if(error.code === ErrorCode.USER_ALREDY_EXISTS.code) throw error;
+            throw new Exception(ErrorCode.CREATE_USER_FAILED)
+        }
+    }
+
+    async createWithTransaction(newUser, transaction){
 
         try {
             const existingUser = await User.findOne({ where: { email: newUser.email } })
@@ -53,7 +117,8 @@ class UserService{
                     profilePhotoLink: profilePhotoLink,
                     password: newUser.password,
                     roles: ["USER"]
-                }
+                },
+                { transaction: transaction }
             )
         
 
@@ -62,6 +127,7 @@ class UserService{
             return { user: mapToResponse(user), token: token }        
         }
         catch(error){
+            console.log(error)
             if(error.code === ErrorCode.USER_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_USER_FAILED)
         }

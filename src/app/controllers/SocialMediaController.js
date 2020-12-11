@@ -58,6 +58,17 @@ class SocialMediaController{
         }
     }
 
+    async getRankingPaged(req, res){
+        try {
+            const response = await SocialMediaService.getRankingPaged(req.userId)
+
+            return res.json(response)        
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
+
     async getRankingScore(req, res){
         try {
             const response = await SocialMediaService.getRankingScore(req.userId)

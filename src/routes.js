@@ -9,7 +9,8 @@ const GamificationController = require('./app/controllers/GamificationController
 
 routes.post('/auth', SessionController.auth)
 routes.post('/users', UserController.create)
-routes.get('/users/email/:email', UserController.userExistsByEmaileate)
+routes.get('/users/email/:email', UserController.userExistsByEmail)
+routes.get('/users/cpf/:cpf', UserController.userExistsByCpf)
 
 routes.post('/users/admin', UserController.createAdmin)
 
@@ -17,6 +18,8 @@ routes.post('/reset-password', ResetPasswordController.resetPassword)
 routes.post('/reset-password/token', ResetPasswordController.sendResetPasswordToken)
 routes.post('/users/socials-media', SocialMediaController.create)
 routes.get('/socials-media/ranking', userIdMiddleware, SocialMediaController.getRanking)
+routes.get('/socials-media/ranking/paged', userIdMiddleware, SocialMediaController.getRankingPaged)
+
 routes.get('/socials-media/ranking/score', userIdMiddleware, SocialMediaController.getRankingScore)
 
 routes.get('/users/socials-media/:socialMediaId', SocialMediaController.getById)

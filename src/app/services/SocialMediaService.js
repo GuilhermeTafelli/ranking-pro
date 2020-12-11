@@ -3,20 +3,20 @@ const Exception = require('../exceptions/Exception')
 const ErrorCode = require('../exceptions/ErrorCode')
 const { User } = require('../models')
 const { mapToResponse, mapToResponseRanking, mapToResponseRankingScore } = require('./mappers/SocialMediaServiceMapper');
-
+const UserService = require('./UserService')
+const db = require('../models/index');
 class SocialMediaService {
 
     async create(newSocialMedia) {
+        
         try {
-            const existingSocialMedia = await SocialMedia.findOne({ where: { userId: newSocialMedia.userId } })
+            const transaction = await db.sequelize.transaction();
 
-            if (existingSocialMedia) {
-                throw new Exception(ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS)
-            }
+            const response = await UserService.createWithTransaction(newSocialMedia.user, transaction)
 
             const socialMedia = await SocialMedia.create(
                 {
-                    userId: newSocialMedia.userId,
+                    userId: response.user.id,
                     instagram: newSocialMedia.instagram,
                     facebook: newSocialMedia.facebook,
                     youtube: newSocialMedia.youtube,
@@ -25,18 +25,21 @@ class SocialMediaService {
                     tiktok: newSocialMedia.tiktok,
                     aboutMe: newSocialMedia.aboutMe,
                     whereYouFrom: newSocialMedia.whereYouFrom,
-                    monthlyInvoicing: newSocialMedia.monthlyInvoicing,
                     skills: newSocialMedia.skills,
                     niches: newSocialMedia.niches,
-                    customers: newSocialMedia.customers,
-                    testCustomers: newSocialMedia.testCustomers
-                }
-            )
+                },
+                { transaction: transaction}
+            )            
 
-            return socialMedia
+            transaction.commit()
+
+            return { ...response, socialMedia }        
+            
+
         }
         catch (error) {
             console.log(error)
+            await transaction.rollback();
             if (error.code === ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_SOCIAL_MEDIA_FAILED)
         }
@@ -73,8 +76,18 @@ class SocialMediaService {
         catch (error) {
             throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
         }
-
     }
+
+    async getRankingPaged(userId) {
+        try {
+            const socialsMedia = await SocialMedia.findAndCountAll({ include: { model: User }, limit: 5})
+            return mapToResponseRanking(socialsMedia.rows, userId)
+        }
+        catch (error) {
+            throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
+        }
+    }
+
 
     async getRankingScore(userId) {
         try {

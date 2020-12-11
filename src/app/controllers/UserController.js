@@ -5,11 +5,20 @@ const ExceptionHandler = require("../exceptions/ExceptionHandler")
 class UserController{
 
 
-    async userExistsByEmaileate(req, res){
+    async userExistsByEmail(req, res){
         try {
             const response = await UserService.userExistsByEmail(req.params.email)
 
-            res.status(200)
+            return res.json(response)        
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
+    async userExistsByCpf(req, res){
+        try {
+            const response = await UserService.userExistsByCpf(req.params.cpf)
+
             return res.json(response)        
         }
         catch(error){
@@ -46,7 +55,6 @@ class UserController{
         try {
             const response = await UserService.update(req.userId, req.body)
 
-            res.status(200)
             return res.json(response)      
         }
         catch(error){

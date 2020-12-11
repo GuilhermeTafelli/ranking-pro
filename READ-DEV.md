@@ -4,7 +4,7 @@ sudo docker run -p 5432:5432 -e POSTGRES_PASSWORD=admin -e POSTGRES_USER=admin -
 
 Create new migration:
 
-yarn sequelize migration:create --name=create-gamifications-codes
+yarn sequelize migration:create --name=change-column-socials-media-about-me-size
 Run migrations:
 
 yarn sequelize db:migrate
