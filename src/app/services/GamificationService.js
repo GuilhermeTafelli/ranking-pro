@@ -9,21 +9,18 @@ class GamificationService {
     async createGamificationCode(newGamificationCode) {
 
         try {
-            console.log("enter")
             const gamificationCode = await GamificationCode.findOne({ where: { code: newGamificationCode.code } });
 
             if (gamificationCode) {
                 throw new Exception(ErrorCode.GAMIFICATION_CODE_ALREDY_EXISTS)
             }
 
-            console.log("enter2")
 
             const response = await GamificationCode.create(newGamificationCode)
 
             return response
         }
         catch (error) {
-            console.log(error)
             if (error instanceof Exception) throw error;
             throw new Exception(ErrorCode.CREATE_GAMIFICATION_CODES_FAILED)
         }
@@ -50,7 +47,6 @@ class GamificationService {
 
             const hasCode = Boolean(socialMedia.gamificationCodes ? socialMedia.gamificationCodes.find(code => code.code == codeVerify.toUpperCase()) : false)
 
-            console.log(hasCode)
             if(hasCode) throw new Exception(ErrorCode.GAMIFICATION_CODE_ALREDY_REGISTERED)
 
             socialMedia.gamificationCodes.push({

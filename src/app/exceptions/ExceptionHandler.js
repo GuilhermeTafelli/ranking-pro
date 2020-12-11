@@ -1,7 +1,6 @@
 const ErrorCode = require('./ErrorCode')
 
 module.exports = function ExceptionHandler(res, error){
-    console.log(error)
     
     if(error.code === ErrorCode.USER_ALREDY_EXISTS.code){
         return res.status(400).send(error)

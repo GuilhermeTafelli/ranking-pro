@@ -29,7 +29,6 @@ class ResetPasswordService{
             const expiresIn = new Date()
             expiresIn.setMinutes(expiresIn.getMinutes() + process.env.FORGOT_PASSWORD_TOKEN_EXPIRES)
     
-            console.log(token)
             user.passwordResetToken = token
             user.passwordResetExpiresIn = expiresIn
             
@@ -57,8 +56,6 @@ class ResetPasswordService{
                 throw new Exception(ErrorCode.USER_NOT_FOUND)
             }
     
-            console.log(user.passwordResetExpiresIn, Date.now())
-    
             if(user.passwordResetToken == null || user.passwordResetToken !== resetPassword.token)
                 throw new Exception(ErrorCode.INVALID_TOKEN)
             
@@ -76,7 +73,6 @@ class ResetPasswordService{
             return
         }
         catch (error) {
-            console.log(error)
             if(error.code === ErrorCode.INVALID_TOKEN.code
                 || error.code === ErrorCode.USER_NOT_FOUND.code
                 || error.code === ErrorCode.TOKEN_EXPIRED.code

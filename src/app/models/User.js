@@ -34,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
       hooks: {
         beforeSave: async user => {
           if (user.password) {
-            console.log(user.password)
             user.passwordHash = await bcrypt.hash(user.password, 8);
           }
         }

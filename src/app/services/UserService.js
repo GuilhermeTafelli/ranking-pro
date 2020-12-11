@@ -23,7 +23,6 @@ class UserService{
             const existingUser = await User.findOne({ where: { email: newUser.email } })
         
             if (existingUser) {
-                console.log("error")
                 throw new Exception(ErrorCode.USER_ALREDY_EXISTS)
             }
 
@@ -34,7 +33,6 @@ class UserService{
                 profilePhotoLink = await S3Service.uploadFilePublicRead(newUser.profilePhoto.base64, "profile-photo-"+newUser.fullName+"-"+randomBytes)
             }
 
-            console.log(newUser.password)
             const birthDate =  moment(newUser.birthDate, "DD/MM/YYYY").toDate()
 
             const user = await User.create(
@@ -58,14 +56,12 @@ class UserService{
                 }
             )
         
-            console.log(user)
 
             let token = await user.generateToken()
         
             return { user: mapToResponse(user), token: token }        
         }
         catch(error){
-            console.log(error)
             if(error.code === ErrorCode.USER_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_USER_FAILED)
         }
@@ -77,7 +73,6 @@ class UserService{
             const existingUser = await User.findOne({ where: { email: newUser.email } })
         
             if (existingUser) {
-                console.log("error")
                 throw new Exception(ErrorCode.USER_ALREDY_EXISTS)
             }
 
@@ -91,14 +86,12 @@ class UserService{
                 }
             )
         
-            console.log(user)
 
             let token = await user.generateToken()
         
             return { user: mapToResponse(user), token: token }        
         }
         catch(error){
-            console.log(error)
             if(error.code === ErrorCode.USER_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_USER_FAILED)
         }
@@ -106,7 +99,6 @@ class UserService{
 
     async update(userId, updateUser){
         try {
-            console.log(userId, updateUser)
             const user = await User.findOne({ where: { id: userId } })
         
             if (!user) {
@@ -132,12 +124,10 @@ class UserService{
             if(updateUser.sex) user.sex = updateUser.sex
 
             await user.save()
-            console.log("enter")
         
             return mapToResponse(user)
         }
         catch(error){
-            console.log(error)
             if(error.code === ErrorCode.USER_NOT_FOUND.code) throw error;
             throw new Exception(ErrorCode.UPDATE_USER_FAILED)
         }

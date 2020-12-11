@@ -8,7 +8,6 @@ class SessionController {
             res.status(200)
             return res.json(response)
         } catch(error){
-            console.log('in2')
             ExceptionHandler(res, error)
         }
     }

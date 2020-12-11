@@ -63,7 +63,6 @@ class UserController{
         try {
 
             if(!req.roles.includes("ADMIN")) throw new Exception(ErrorCode.PERMISSION_DENIED)
-            console.log(req.params.orderId)
             const response = await OrderService.answerOrder(req.params.orderId, req.body)
 
             return res.json(response)        

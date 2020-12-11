@@ -1,5 +1,4 @@
 function sortRanking(a, b){
-    console.log(a.monthlyInvoicing, b.monthlyInvoicing)
     if(a.monthlyInvoicing === null && b.monthlyInvoicing === null){
         return a.User.fullName - b.User.fullName
     }
@@ -62,7 +61,6 @@ module.exports = {
     },
     mapToResponseRanking: function (socialsMedia, userId){
 
-        console.log(userId)
 
         var mySocialMedia
         const response = socialsMedia.sort(sortRanking).reverse().map((socialMedia, index) => {
@@ -86,8 +84,6 @@ module.exports = {
             return socialMediaResponse
         })
 
-        console.log(response)
-        
         return {
             socialsMedia: response,
             mySocialMedia: mySocialMedia
@@ -96,12 +92,10 @@ module.exports = {
     },
     mapToResponseRankingScore: function (socialsMedia, userId){
 
-        console.log(userId)
 
         var mySocialMedia
         const response = socialsMedia.sort(sortRankingScore).reverse().map((socialMedia, index) => {
          
-            console.log(socialMedia)
             const socialMediaResponse = {
                 id: socialMedia.id,
                 position: index+1,
@@ -118,8 +112,6 @@ module.exports = {
             return socialMediaResponse
         })
 
-        console.log(response)
-        
         return {
             socialsMedia: response,
             mySocialMedia: mySocialMedia

@@ -1,8 +1,6 @@
 const Exception = require('../exceptions/Exception')
 const ErrorCode = require('../exceptions/ErrorCode')
 const nodemailer = require('nodemailer');
-console.log(process.env.SENDER_EMAIL_USER)
-console.log(process.env.SENDER_EMAIL_PASSWORD)
 
 const sender = nodemailer.createTransport({
     service: 'gmail',
@@ -24,12 +22,9 @@ class SendEmailService {
                 html: htmlTemplate
             };
 
-            console.log(sender)
-
             await sender.sendMail(mailOptions)
         }
         catch (error) {
-            console.log(error)
             throw new Exception(ErrorCode.AUTHENTICATION_FAILED)
         }
     }

@@ -49,7 +49,6 @@ class SocialMediaController{
     }
     async getRanking(req, res){
         try {
-            console.log(req.userId)
             const response = await SocialMediaService.getRanking(req.userId)
 
             return res.json(response)        
@@ -61,7 +60,6 @@ class SocialMediaController{
 
     async getRankingScore(req, res){
         try {
-            console.log(req.userId)
             const response = await SocialMediaService.getRankingScore(req.userId)
 
             return res.json(response)        

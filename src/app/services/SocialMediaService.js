@@ -11,7 +11,6 @@ class SocialMediaService {
             const existingSocialMedia = await SocialMedia.findOne({ where: { userId: newSocialMedia.userId } })
 
             if (existingSocialMedia) {
-                console.log("error")
                 throw new Exception(ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS)
             }
 
@@ -37,7 +36,6 @@ class SocialMediaService {
             return socialMedia
         }
         catch (error) {
-            console.log(error)
             if (error.code === ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_SOCIAL_MEDIA_FAILED)
         }
@@ -62,7 +60,6 @@ class SocialMediaService {
             return
         }
         catch (error) {
-            console.log(error)
             throw new Exception(ErrorCode.UPDATE_SOCIAL_MEDIA_GAMIFICATION_CODES_FAILED)
         }
     }
@@ -73,7 +70,6 @@ class SocialMediaService {
             return mapToResponseRanking(socialsMedia, userId)
         }
         catch (error) {
-            console.log(error)
             throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
         }
 
@@ -82,11 +78,9 @@ class SocialMediaService {
     async getRankingScore(userId) {
         try {
             const socialsMedia = await SocialMedia.findAll({ include: { model: User } })
-            console.log("teste")
             return mapToResponseRankingScore(socialsMedia, userId)
         }
         catch (error) {
-            console.log(error)
             throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
         }
 
@@ -95,11 +89,9 @@ class SocialMediaService {
     async getById(socialMediaId) {
         try {
             const socialMedia = await SocialMedia.findOne({ where: { id: socialMediaId }, include: { model: User } })
-            console.log("enter")
             return mapToResponse(socialMedia, socialMedia.User)
         }
         catch (error) {
-            console.log(error)
             throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
         }
 

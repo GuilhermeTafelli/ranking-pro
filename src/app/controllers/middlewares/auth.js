@@ -13,7 +13,6 @@ module.exports = {
 
     try {
       const decoded = await promisify(jwt.verify)(token, process.env.APP_SECRET);
-      console.log(decoded)
       req.userId = decoded.id
       req.roles = decoded.roles
 
@@ -35,7 +34,6 @@ module.exports = {
 
     try {
       const decoded = await promisify(jwt.verify)(token, process.env.APP_SECRET);
-      console.log(decoded)
       req.userId = decoded.id;
 
       return next();
