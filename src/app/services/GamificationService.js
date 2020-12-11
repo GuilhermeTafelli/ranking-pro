@@ -45,7 +45,7 @@ class GamificationService {
             const socialMedia = await SocialMediaService.getByUserId(userId)
 
 
-            const hasCode = Boolean(socialMedia.gamificationCodes ? socialMedia.gamificationCodes.find(code => code.code == codeVerify.toUpperCase()) : false)
+            const hasCode = Boolean(socialMedia.gamificationCodes ? socialMedia.gamificationCodes.find(code => code.code == codeVerify.toUpperCase().replace(/\s/g, '')) : false)
 
             if(hasCode) throw new Exception(ErrorCode.GAMIFICATION_CODE_ALREDY_REGISTERED)
 
