@@ -36,6 +36,7 @@ class SocialMediaService {
             return socialMedia
         }
         catch (error) {
+            console.log(error)
             if (error.code === ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_SOCIAL_MEDIA_FAILED)
         }

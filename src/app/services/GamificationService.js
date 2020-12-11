@@ -60,6 +60,7 @@ class GamificationService {
             return {score: gamificationCode.score}
         }
         catch (error) {
+            console.log(error, codeVerify)
             if (error instanceof Exception) throw error;
             throw new Exception(ErrorCode.UPDATE_SOCIAL_MEDIA_GAMIFICATION_CODES_FAILED)
         }
