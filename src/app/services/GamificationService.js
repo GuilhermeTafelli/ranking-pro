@@ -36,7 +36,7 @@ class GamificationService {
 
         try {
 
-            const gamificationCode = await GamificationCode.findOne({ where: { code: codeVerify.toUpperCase() } });
+            const gamificationCode = await GamificationCode.findOne({ where: { code: codeVerify.toUpperCase().replace(/\s/g, '') } });
 
             if (!gamificationCode) {
                 throw new Exception(ErrorCode.GAMIFICATION_CODE_NOT_FOUND)
@@ -60,7 +60,7 @@ class GamificationService {
             return {score: gamificationCode.score}
         }
         catch (error) {
-            console.log(error, codeVerify)
+            console.log(error, "!"+codeVerify+"!")
             if (error instanceof Exception) throw error;
             throw new Exception(ErrorCode.UPDATE_SOCIAL_MEDIA_GAMIFICATION_CODES_FAILED)
         }
