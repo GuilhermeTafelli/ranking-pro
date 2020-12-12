@@ -87,7 +87,7 @@ class SocialMediaController{
 
             const response = await SocialMediaService.updateCodeScoreInAllUsers(req.body.code, req.body.score)
 
-            return res.end()
+            return res.json(response)
         }
         catch(error){
             ExceptionHandler(res, error)

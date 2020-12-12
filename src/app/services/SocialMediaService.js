@@ -173,7 +173,7 @@ class SocialMediaService {
             })
         }
         catch(error){
-            console.log(error)
+            return error
         }
     }
 
