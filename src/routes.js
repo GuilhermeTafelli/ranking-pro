@@ -33,6 +33,7 @@ routes.get('/users/orders', OrderController.listOrderByUserId)
 
 routes.post('/socials-media/gamification/code', GamificationController.validityCode)
 routes.get('/socials-media/gamification/code', SocialMediaController.getGamificationCodesByUserId)
+routes.put('/socials-media/gamification/code', SocialMediaController.updateCodeScoreInAllUsers)
 
 routes.post('/gamification/code', GamificationController.create)
 

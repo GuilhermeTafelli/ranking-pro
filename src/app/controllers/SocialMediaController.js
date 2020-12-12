@@ -80,6 +80,20 @@ class SocialMediaController{
         }
     }
 
+    async updateCodeScoreInAllUsers(req, res){
+        try {
+
+            if(!req.roles.includes("ADMIN")) throw new Exception(ErrorCode.PERMISSION_DENIED)
+
+            const response = await SocialMediaService.updateCodeScoreInAllUsers(req.body.code, req.body.score)
+
+            return res.end()
+        }
+        catch(error){
+            ExceptionHandler(res, error)
+        }
+    }
+
 }
 
 module.exports = new SocialMediaController()

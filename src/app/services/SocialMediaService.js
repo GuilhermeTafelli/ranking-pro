@@ -8,7 +8,7 @@ const db = require('../models/index');
 class SocialMediaService {
 
     async create(newSocialMedia) {
-        
+
         try {
             const transaction = await db.sequelize.transaction();
 
@@ -28,13 +28,13 @@ class SocialMediaService {
                     skills: newSocialMedia.skills,
                     niches: newSocialMedia.niches,
                 },
-                { transaction: transaction}
-            )            
+                { transaction: transaction }
+            )
 
             transaction.commit()
 
-            return { ...response, socialMedia }        
-            
+            return { ...response, socialMedia }
+
 
         }
         catch (error) {
@@ -80,7 +80,7 @@ class SocialMediaService {
 
     async getRankingPaged(userId) {
         try {
-            const socialsMedia = await SocialMedia.findAndCountAll({ include: { model: User }, limit: 5})
+            const socialsMedia = await SocialMedia.findAndCountAll({ include: { model: User }, limit: 5 })
             return mapToResponseRanking(socialsMedia.rows, userId)
         }
         catch (error) {
@@ -99,7 +99,7 @@ class SocialMediaService {
         }
 
     }
-    
+
     async getById(socialMediaId) {
         try {
             const socialMedia = await SocialMedia.findOne({ where: { id: socialMediaId }, include: { model: User } })
@@ -132,7 +132,7 @@ class SocialMediaService {
     async getGamificationCodesByUserId(userId) {
         try {
 
-            const socialMedia = await SocialMedia.findOne({ where: { userId: userId }})
+            const socialMedia = await SocialMedia.findOne({ where: { userId: userId } })
 
 
             if (!socialMedia) {
@@ -146,6 +146,37 @@ class SocialMediaService {
             throw new Exception(ErrorCode.GET_SOCIAL_MEDIA_BY_ID_FAILED)
         }
     }
+
+    calculateScore(gamificationCodes) {
+        var score = 0
+        gamificationCodes.forEach(gamificationCode => score += gamificationCode.score)
+        return score
+    }
+
+    async updateCodeScoreInAllUsers(code, score) {
+        try {
+            const socialsMedia = await SocialMedia.findAll()
+
+            socialsMedia.map(socialMedia => {
+                socialMedia.gamificationCodes.map((gamificationCode, index) => {
+                    console.log(gamificationCode.code, code)
+                    if (gamificationCode.code === code){
+                        socialMedia.gamificationCodes[index].score = score
+                        console.log("enter")
+                    }
+                })
+                console.log(socialMedia.gamificationCodes)
+                const newScore = this.calculateScore(socialMedia.gamificationCodes)
+                console.log(newScore)
+                socialMedia.score = newScore
+                socialMedia.save()
+            })
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
+
 }
 
 module.exports = new SocialMediaService()
