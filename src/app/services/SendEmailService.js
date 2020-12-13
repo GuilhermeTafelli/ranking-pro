@@ -5,8 +5,8 @@ const nodemailer = require('nodemailer');
 const sender = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'guilhermetafellieducation@gmail.com',
-        pass: 'tafelli0104'
+        user: process.env.SENDER_EMAIL_USER,
+        pass: process.env.SENDER_EMAIL_PASSWORD
     }
 });
 
@@ -25,7 +25,8 @@ class SendEmailService {
             await sender.sendMail(mailOptions)
         }
         catch (error) {
-            throw new Exception(ErrorCode.AUTHENTICATION_FAILED)
+            console.log(error)
+            throw new Exception(ErrorCode.SEND_EMAIL_FAILED)
         }
     }
 }

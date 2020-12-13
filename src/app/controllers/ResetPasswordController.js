@@ -8,6 +8,7 @@ class ResetPasswordController {
             res.status(200)
             return res.end()
         } catch(error) {
+            ExceptionHandler(res, error)
         }
     }
 

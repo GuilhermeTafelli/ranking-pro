@@ -31,6 +31,10 @@ const ErrorCode = {
         code: "AUTHENTICATION_FAILED",
         message: "Authentication failed."
     },
+    SEND_EMAIL_FAILED: {
+        code: "SEND_EMAIL_FAILED",
+        message: "Send email failed."
+    },
     FAILED_SEND_EMAIL: {
         code: "FAILED_SEND_EMAIL",
         message: " Failed to send email."
