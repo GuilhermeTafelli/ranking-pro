@@ -33,10 +33,7 @@ class ResetPasswordService {
             user.passwordResetExpiresIn = expiresIn
             await user.save();
 
-            console.log(process.env.FORGOT_PASSWORD_WEB_URL + "/email/" + email + "/token/" + token)
-
             var resetPasswordHTMLEmailTemplateWithLink = this.resetPasswordHTMLEmailTemplate.replace(/{reset-password-link}/g, process.env.FORGOT_PASSWORD_WEB_URL + "/email/" + email + "/token/" + token)
-            console.log(resetPasswordHTMLEmailTemplateWithLink)
             await SendEmailService.sendEmail(email, "Redefinição de senha", resetPasswordHTMLEmailTemplateWithLink)
 
             return

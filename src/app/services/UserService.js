@@ -73,8 +73,6 @@ class UserService{
             return { user: mapToResponse(user), token: token }        
         }
         catch(error){
-            console.log(error)
-
             await transaction.rollback();
             if(error.code === ErrorCode.USER_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_USER_FAILED)

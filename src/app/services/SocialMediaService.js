@@ -38,7 +38,6 @@ class SocialMediaService {
 
         }
         catch (error) {
-            console.log(error)
             await transaction.rollback();
             if (error.code === ErrorCode.SOCIAL_MEDIA_ALREDY_EXISTS.code) throw error;
             throw new Exception(ErrorCode.CREATE_SOCIAL_MEDIA_FAILED)
@@ -159,15 +158,11 @@ class SocialMediaService {
 
             socialsMedia.map(socialMedia => {
                 socialMedia.gamificationCodes.map((gamificationCode, index) => {
-                    console.log(gamificationCode.code, code)
                     if (gamificationCode.code === code){
                         socialMedia.gamificationCodes[index].score = score
-                        console.log("enter")
                     }
                 })
-                console.log(socialMedia.gamificationCodes)
                 const newScore = this.calculateScore(socialMedia.gamificationCodes)
-                console.log(newScore)
                 socialMedia.score = newScore
                 socialMedia.save()
             })
