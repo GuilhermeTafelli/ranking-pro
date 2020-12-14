@@ -47,8 +47,9 @@ class ResetPasswordService {
 
     async resetPassword(resetPassword) {
         try {
-
             const user = await User.findOne({ where: { email: resetPassword.email } })
+            console.log(user.passwordResetToken, resetPassword.token)
+            console.log(user.passwordResetExpiresIn, Date.now().getFullYear())
 
             if (!user) {
                 throw new Exception(ErrorCode.USER_NOT_FOUND)
@@ -56,6 +57,7 @@ class ResetPasswordService {
 
             if (user.passwordResetToken == null || user.passwordResetToken !== resetPassword.token)
                 throw new Exception(ErrorCode.INVALID_TOKEN)
+
 
             if (user.passwordResetExpiresIn == null || user.passwordResetExpiresIn < Date.now())
                 throw new Exception(ErrorCode.TOKEN_EXPIRED)
@@ -71,6 +73,7 @@ class ResetPasswordService {
             return
         }
         catch (error) {
+            console.log(error)
             if (error.code === ErrorCode.INVALID_TOKEN.code
                 || error.code === ErrorCode.USER_NOT_FOUND.code
                 || error.code === ErrorCode.TOKEN_EXPIRED.code

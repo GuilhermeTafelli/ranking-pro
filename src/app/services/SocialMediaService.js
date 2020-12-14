@@ -5,6 +5,7 @@ const { User } = require('../models')
 const { mapToResponse, mapToResponseRanking, mapToResponseRankingScore } = require('./mappers/SocialMediaServiceMapper');
 const UserService = require('./UserService')
 const db = require('../models/index');
+const { SOCIAL_MEDIA_NOT_FOUND } = require('../exceptions/ErrorCode');
 class SocialMediaService {
 
     async create(newSocialMedia) {
@@ -156,15 +157,19 @@ class SocialMediaService {
         try {
             const socialsMedia = await SocialMedia.findAll()
 
-            socialsMedia.map(socialMedia => {
-                socialMedia.gamificationCodes.map((gamificationCode, index) => {
+            await socialsMedia.map(async socialMedia => {
+
+                var newGamificationCodes = socialMedia.gamificationCodes
+
+                await socialMedia.gamificationCodes.map(async (gamificationCode, index) => {
                     if (gamificationCode.code === code){
-                        socialMedia.gamificationCodes[index].score = score
+                        newGamificationCodes[index].score = score
                     }
                 })
                 const newScore = this.calculateScore(socialMedia.gamificationCodes)
-                socialMedia.score = newScore
-                socialMedia.save()
+                console.log(newGamificationCodes)
+
+                this.updateGamificationCodeAndScore(newGamificationCodes, newScore, socialMedia.id)
             })
         }
         catch(error){
