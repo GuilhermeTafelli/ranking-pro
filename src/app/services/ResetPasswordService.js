@@ -49,7 +49,7 @@ class ResetPasswordService {
         try {
             const user = await User.findOne({ where: { email: resetPassword.email } })
             console.log(user.passwordResetToken, resetPassword.token)
-            console.log(user.passwordResetExpiresIn, Date.now().getFullYear())
+            console.log(user.passwordResetExpiresIn, Date.now())
 
             if (!user) {
                 throw new Exception(ErrorCode.USER_NOT_FOUND)
