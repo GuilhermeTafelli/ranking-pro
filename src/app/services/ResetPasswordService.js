@@ -28,6 +28,7 @@ class ResetPasswordService {
             const token = crypto.randomBytes(20).toString('hex')
             const expiresIn = new Date()
             expiresIn.setMinutes(expiresIn.getMinutes() + process.env.FORGOT_PASSWORD_TOKEN_EXPIRES)
+            console.log(expiresIn)
 
             user.passwordResetToken = token
             user.passwordResetExpiresIn = expiresIn
