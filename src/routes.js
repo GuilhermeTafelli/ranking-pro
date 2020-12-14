@@ -6,6 +6,7 @@ const ResetPasswordController = require('./app/controllers/ResetPasswordControll
 const SocialMediaController = require('./app/controllers/SocialMediaController')
 const OrderController = require('./app/controllers/OrderController')
 const GamificationController = require('./app/controllers/GamificationController')
+const InstagramProfileSimulationController = require('./app/controllers/InstagramProfileSimulationController')
 
 routes.post('/auth', SessionController.auth)
 routes.post('/users', UserController.create)
@@ -30,6 +31,10 @@ routes.get('/users/social-media', SocialMediaController.getByUserId)
 routes.put('/users', UserController.update)
 routes.post('/users/orders', OrderController.create)
 routes.get('/users/orders', OrderController.listOrderByUserId)
+
+routes.post('/social-medias/instagram/simulations', InstagramProfileSimulationController.create)
+routes.get('/social-medias/instagram/simulations', InstagramProfileSimulationController.listInstagramProfileSimulationsByUserId)
+routes.get('/social-medias/instagram/simulations/:id', InstagramProfileSimulationController.getInstagramProfileSimulationsByUserIdAndId)
 
 routes.post('/socials-media/gamification/code', GamificationController.validityCode)
 routes.get('/socials-media/gamification/code', SocialMediaController.getGamificationCodesByUserId)
